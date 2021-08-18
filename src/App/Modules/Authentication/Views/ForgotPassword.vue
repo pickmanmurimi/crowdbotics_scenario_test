@@ -10,40 +10,14 @@
                 <div class="card bg-white mt-8 border-0">
                   <div class="card-body px-lg-5 py-lg-5">
                     <div class=" text-muted mb-4">
-                      <p>sign up with credentials</p>
+                      <h3>Password Reset</h3>
+                      <p>Enter your email to recover your password.</p>
                     </div>
 
                     <!------------------------------------------------------------------------------------------------->
                     <!-- Form -->
                     <!------------------------------------------------------------------------------------------------->
                     <div class="text-left">
-
-                      <!----------------------------------------------------------------------------------------------->
-                      <!-- name -->
-                      <!----------------------------------------------------------------------------------------------->
-
-                      <div class="form-group mb-5">
-                        <div class="input-group input-group-alternative">
-
-                          <!-- icon-->
-                          <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-single-02"></i></span>
-                          </div>
-
-                          <!-- input-->
-                          <input
-                              class="form-control"
-                              v-model="registerData.name"
-                              placeholder="Name"
-                              type="text"
-                              :disabled="loading || authentication_loader">
-
-                        </div>
-                        <!-- error-->
-                        <small class="form-text text-danger" v-if="formError['name']"> {{
-                            formError.name[0]
-                          }} </small>
-                      </div>
 
                       <!----------------------------------------------------------------------------------------------->
                       <!-- email -->
@@ -60,10 +34,10 @@
                           <!-- input-->
                           <input
                               class="form-control"
-                              v-model="registerData.email"
+                              v-model="passwordResetData.email"
                               placeholder="Email"
                               type="email"
-                              :disabled="loading || authentication_loader">
+                              :disabled="loading">
 
                         </div>
                         <!-- error-->
@@ -73,45 +47,17 @@
                       </div>
 
                       <!----------------------------------------------------------------------------------------------->
-                      <!-- password -->
-                      <!----------------------------------------------------------------------------------------------->
-
-                      <div class="form-group">
-                        <div class="input-group input-group-alternative">
-
-                          <!-- icon-->
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <i class="ni ni-lock-circle-open"></i></span>
-                          </div>
-
-                          <!-- input-->
-                          <input
-                              class="form-control"
-                              v-model="registerData.password"
-                              placeholder="Password"
-                              type="password"
-                              :disabled="loading || authentication_loader">
-
-                        </div>
-                        <!-- error-->
-                        <small class="form-text text-danger" v-if="formError['password']">
-                          {{ formError.password[0] }} </small>
-                      </div>
-
-                      <!----------------------------------------------------------------------------------------------->
                       <!-- Loader -->
                       <!----------------------------------------------------------------------------------------------->
                       <center-loader color="warning" v-if="loading"></center-loader>
-                      <center-loader color="success" v-if="authentication_loader"></center-loader>
 
                       <!----------------------------------------------------------------------------------------------->
                       <!-- sign in -->
                       <!----------------------------------------------------------------------------------------------->
 
                       <div class="text">
-                        <button :disabled="loading || authentication_loader" type="button" @click="login()" class="btn btn-primary my-4">Sign
-                          up
+                        <button :disabled="loading" type="button" @click="resetPassword()"
+                                class="btn btn-primary my-4"> Reset Password
                         </button>
                       </div>
 
@@ -120,7 +66,9 @@
                       <!----------------------------------------------------------------------------------------------------->
                       <div class="row mt-3">
                         <div class="col-12">
-                          <router-link :to="{ name: 'Login'}" class="text-primary"><small>Already have an account? Login</small></router-link>
+                          <router-link :to="{ name: 'Register'}" class="text-primary"><small>Not registered? Register</small></router-link>
+                          <br>
+                          <router-link :to="{ name: 'Login'}" class="text-primary"><small>Login</small></router-link>
                         </div>
                       </div>
 
@@ -156,14 +104,12 @@ export default {
 
   /**
    * data
-   * @return {{registerData: {password: string, email: string}, formError: []}}
+   * @return {{passwordResetData: {password: string, email: string}, formError: []}}
    */
   data() {
     return {
-      registerData: {
-        name: '',
+      passwordResetData: {
         email: '',
-        password: '',
       },
       formError: [],
       loading: false,
@@ -176,27 +122,19 @@ export default {
    */
   methods: {
     /**
-     * login
+     * resetPassword
      */
-    login() {
+    resetPassword() {
       this.loading = true;
       this.formError = []
       this.$axios({
-        baseURL: process.env.VUE_APP_AUTH_API_ROOT,
-        url: 'rest-auth/registration/',
+        url: 'rest-auth/password/reset/',
         method: 'post',
-        data: this.registerData
+        data: this.passwordResetData
       })
           .then(response => {
             this.loading = false;
-            let token = response.data.key;
-
-            //set token to store
-            if (token) {
-              this.$store.dispatch('set_token', token);
-              this.setUserDetails();
-              this.loading = false;
-            }
+            swal("Password reset e-mail has been sent.", "", "success")
           })
           .catch(err => {
             this.loading = false;

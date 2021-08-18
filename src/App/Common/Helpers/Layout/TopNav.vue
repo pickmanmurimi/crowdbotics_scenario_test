@@ -3,7 +3,10 @@
 
     <div class="container-fluid">
       <!-- Brand -->
-      <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="#"> {{ this.$route.name }} </a>
+      <a class="navbar-brand pt-0" href="#">
+        <img src="/img/icons/crowdbotics_brand-line.png" class="navbar-brand-img" alt="...">
+      </a>
+<!--      <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="#"> {{ this.$route.name }} </a>-->
 
       <!-- User -->
       <ul class="navbar-nav align-items-center d-none d-md-flex">
@@ -12,14 +15,14 @@
              aria-haspopup="true" :aria-expanded="showDropDown">
             <div class="media align-items-center">
                             <span class="avatar avatar-sm rounded-circle">
-                                <img alt="Image placeholder" src="/img/icons/logo.png">
+                                <img alt="Image placeholder" src="/img/icons/favicon.png">
                             </span>
               <div class="media-body ml-2 d-none d-lg-block">
-                <span class="mb-0 text-sm  font-weight-bold">Admin</span>
+                <span class="mb-0 text-sm  font-weight-bold">{{ user.username ? user.username : user.email }}</span>
               </div>
             </div>
           </a>
-          <div v-show="showDropDown" v-on-clickaway="closeDropdown"
+          <div v-if="showDropDown" v-on-clickaway="closeDropdown"
                :class="'dropdown-menu dropdown-menu-arrow dropdown-menu-right' + showClass">
             <div class=" dropdown-header noti-title">
               <h6 class="text-overflow m-0">Welcome!</h6>
@@ -41,8 +44,16 @@
 import {mixin as clickaway} from 'vue-clickaway';
 
 export default {
+
+  /**
+   * mixin
+   */
   mixins: [clickaway],
 
+  /**
+   * data
+   * @return {{showClass: string, showDropDown: boolean}}
+   */
   data() {
     return {
       showDropDown: false,
@@ -50,17 +61,28 @@ export default {
     }
   },
 
+  /**
+   * methods
+   */
   methods: {
 
+    /**
+     * closeDropdown
+     */
     closeDropdown() {
       this.showDropDown = false
       this.showClass = " "
 
     },
 
+    /**
+     * openDropdown
+     */
     openDropdown() {
       this.showDropDown = true
+
       this.showClass = " show"
+
     },
   }
 }
@@ -70,5 +92,10 @@ export default {
 <style scoped>
 .dropdown-menu {
   display: inline !important;
+}
+
+.navbar-brand-img {
+  height: auto;
+  width: 120px;
 }
 </style>

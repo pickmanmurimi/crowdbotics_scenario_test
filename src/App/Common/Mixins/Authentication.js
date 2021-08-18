@@ -21,15 +21,17 @@ let Authentication = {
          */
         setUserDetails(redirect = true) {
             this.authentication_loader = true
+            this.$loading(true,"Getting user details")
             // user/me
             this.$axios.get('/rest-auth/user/')
                 .then(response => {
-                    let user = response.data.data;
+                    let user = response.data;
 
                     //store user
                     if (user) {
                         this.$store.dispatch('set_user', user);
                         this.authentication_loader = false
+                        this.$loading(false);
                         // redirect to home
                         if (redirect)
                             this.$router.push({name: 'Home'});
@@ -38,6 +40,7 @@ let Authentication = {
                 })
                 .catch(error => {
                     this.authentication_loader = false
+                    this.$loading(false);
                     this.logout()
                     console.log(error)
                 })
@@ -48,12 +51,7 @@ let Authentication = {
          */
         logout: function () {
             this.authentication_loader = true;
-            this.$axios({
-                baseURL: process.env.VUE_APP_AUTH_API_ROOT,
-                url: '/admin/logout',
-                method: 'post',
-                data: this.loginData
-            }).then(() => {
+            this.$axios.post('/rest-auth/logout/').then(() => {
                 this.authentication_loader = false;
                 this.$store.dispatch('logout').then();
             }).catch(err => {

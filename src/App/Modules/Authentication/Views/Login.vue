@@ -88,16 +88,20 @@
                         </button>
                       </div>
 
-                    </div>
-                  </div>
-                </div>
+                      <!----------------------------------------------------------------------------------------------------->
+                      <!-- Forgot Password -->
+                      <!----------------------------------------------------------------------------------------------------->
+                      <div class="row mt-3">
+                        <div class="col-12">
+                          <router-link :to="{ name: 'Register'}" class="text-primary">
+                            <small>Not registered? Register</small></router-link>
+                          <br>
+                          <router-link :to="{name : 'ForgotPassword'}" class="text-primary">
+                            <small>Forgot password?</small></router-link>
+                        </div>
+                      </div>
 
-                <!----------------------------------------------------------------------------------------------------->
-                <!-- Forgot Password -->
-                <!----------------------------------------------------------------------------------------------------->
-                <div class="row mt-3">
-                  <div class="col-6">
-                    <!-- <a href="#" class="text-light"><small>Forgot password?</small></a> -->
+                    </div>
                   </div>
                 </div>
 
@@ -154,7 +158,6 @@ export default {
       this.loading = true;
       this.formError = []
       this.$axios({
-        baseURL: process.env.VUE_APP_AUTH_API_ROOT,
         url: 'rest-auth/login/',
         method: 'post',
         data: this.loginData
@@ -172,8 +175,8 @@ export default {
           })
           .catch(err => {
             this.loading = false;
-            if (err.response.data.errors !== undefined) {
-              this.formError = err.response.data.errors
+            if (err.response.data !== undefined) {
+              this.formError = err.response.data
             }
           })
     },

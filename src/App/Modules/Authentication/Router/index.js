@@ -1,5 +1,5 @@
 import { Login } from "@/App/Modules/Authentication/Views";
-import {Register} from "../Views";
+import {Register, ForgotPassword} from "../Views";
 
 export default [
     {
@@ -20,7 +20,18 @@ export default [
         meta: {
             requiresAuth: false,
             onmenu: false,
-            title: "Login",
+            title: "Register",
+            strictNoAuth: true
+        }
+    },
+    {
+        path: "/forgot-password",
+        component: ForgotPassword,
+        name: "ForgotPassword",
+        meta: {
+            requiresAuth: false,
+            onmenu: false,
+            title: "ForgotPassword",
             strictNoAuth: true
         }
     },

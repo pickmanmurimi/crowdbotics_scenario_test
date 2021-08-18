@@ -5,6 +5,7 @@
       <input :id="id" :class=" formError[ name ] ? formClass + ' is-invalid' : formClass"
              :disabled="disabled" :name="name"
              :placeholder="placeholder ? placeholder : text "
+             :required="required"
              :type="type"
              :value="value" class="form-control font-weight-bold form-control-alternative" @input="handleInput">
       <small v-if="formError[ name ]" class="form-text text-danger"> {{ formError[name][0] }} </small>
@@ -48,6 +49,12 @@ export default {
     },
     helper: {
       type: String
+    },
+    required: {
+      type: Boolean,
+      default: () => {
+        return false
+      }
     },
     value: {
       required: true

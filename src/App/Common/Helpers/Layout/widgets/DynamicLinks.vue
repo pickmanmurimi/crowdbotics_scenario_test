@@ -101,7 +101,7 @@ export default {
   bottom: 0.25rem;
   left: 0;
   right: auto;
-  border-left: 2px solid #324cdd;
+  border-left: 2px solid #1e0a45;
   border-bottom: 0;
 
   margin-right: .5rem;
@@ -117,8 +117,32 @@ export default {
   bottom: 0.25rem;
   left: 0;
   right: auto;
-  border-left: 4px solid #324cdd;
+  border-left: 4px solid #1e0a45;
   padding-left: 1rem;
 
+}
+
+.nav-link {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  height: 46px;
+}
+
+.navbar-vertical .navbar-nav .nav-link > i {
+  line-height: 0px;
+  margin-bottom: .1rem;
+}
+
+.nav-item {
+  margin-bottom: 30px;
+  margin-right: 12px;
+  margin-left: 15px;
+}
+
+.nav-item-child {
+  margin-bottom: 0px;
+  /*margin-left: 0px;*/
+  margin-right: 0px;
 }
 </style>
